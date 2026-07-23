@@ -29,7 +29,7 @@ ec2_instances=$(aws ec2 describe-instances --query "Reservations[*].Instances[*]
 
     for ec2_instance in $ec2_instances; do
    
-  if [ $(ec2_instance) == $(instance) ]; then
+  if [ $ec2_instance == $instance ]; then
       
       echo "$instance ec2 instance already exists" 
       exit 1
