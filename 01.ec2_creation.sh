@@ -7,10 +7,16 @@ SUB_ID="subnet-0a76f340dca5f78a5"
 Domain_Name="daws88s.shop"
 ZONE_ID=Z01154241BNSMMPVQO32W
 
+
 if [ $# -le 1 ]; then
    echo "please provide the instance name to create the instance"
    exit 1
 fi
+
+VALIDATE [ $? -ne 0 ]; then
+    echo "$2 record name is $instance.$Domain_Name created"
+    else 
+    echo "$2 record is not created..."
 
 for instance in $@; do
 
@@ -49,7 +55,8 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
         ]
     }'
 
-echo "$instance domain name is $instance.$Domain_Name"
+
+VALIDATE $? $instance 
 
 else
 
@@ -60,7 +67,7 @@ else
 
 aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
 --change-batch '{
-        "Comment": "Upserting a record",
+        "Comment": "Upserting a record",r
         "Changes": [
             {
                 "Action": "UPSERT",
