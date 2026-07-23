@@ -20,9 +20,20 @@ VALIDATE()
     echo "$2 record is not created..."
     fi
 
-for instance in $@; do
 
-ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
+
+for instance in $@; do
+    
+  Instance_Name=$(aws ec2 describe-instances \
+    --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='$instance'].Value | [0]]" \
+    --output text)
+  
+  if  [ $instance_name == $instance ]; then
+        
+        echo "$instance_name already exits"
+       else    
+
+    ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
     --instance-type $Instance_Type \
     --security-group-ids $SG_ID \
     --subnet-id $SUB_ID \
@@ -30,7 +41,7 @@ ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
 
 if [ $instance == frontend ]; then
    
-   public_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
+public_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
     --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
 
    echo "$instance instance public is $public_ip"
@@ -90,7 +101,7 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
  VALIDATE $? $instance 
 
  fi
-
+fi
 done
 
 
