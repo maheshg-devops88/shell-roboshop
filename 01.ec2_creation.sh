@@ -13,7 +13,8 @@ if [ $# -eq 0 ]; then
    exit 1
 fi
 
-VALIDATE() [ $? -eq 0 ]; then
+VALIDATE() 
+    if [ $? -eq 0 ]; then
     echo "$2 record name is $instance.$Domain_Name created"
     else 
     echo "$2 record is not created..."
