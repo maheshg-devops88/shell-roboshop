@@ -30,12 +30,12 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch
             {
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": ":$instance.$Domain_Name",
+                    "Name": '$instance.$Domain_Name',
                     "Type": "A",
                     "TTL": 2,
                     "ResourceRecords": [
                         {
-                            "Value": "$public_ip"
+                            "Value": '$public_ip'
                         }
                     ]
                 }
@@ -52,9 +52,8 @@ else
 
    echo "$instance instance private is $private_ip"
 
-aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID 
---change-batch '
-{
+aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
+--change-batch '{
         "Comment": "Upserting a record",
         "Changes": [
             {
