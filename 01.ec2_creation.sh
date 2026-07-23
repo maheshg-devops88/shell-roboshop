@@ -13,20 +13,15 @@ if [ $# -eq 0 ]; then
    exit 1
 fi
 
-VALIDATE() 
-    if [ $? -eq 0 ]; then
+VALIDATE() {
+    if [ $1 -eq 0 ]; then
     echo "$2 record name is $instance.$Domain_Name created"
     else 
     echo "$2 record is not created..."
     fi
+}
  for instance in $@; do
 
-    
-    Instance_Name=$(aws ec2 describe-instances \
-    --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='$instance'].Value | [0]]" \
-    --output text)
-  
-  
 
     ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
     --instance-type $Instance_Type \
