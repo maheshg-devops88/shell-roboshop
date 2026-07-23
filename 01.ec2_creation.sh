@@ -7,11 +7,11 @@ SUB_ID="subnet-0a76f340dca5f78a5"
 
 for instance in $@; do
 
-aws ec2 run-instances --image-id $AMI_ID \
+ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
     --instance-type $Instance_Type \
     --security-group-ids $SG_ID \
     --subnet-id $SUB_ID \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --count 1
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --count 1)
 
 if [ $instance==frontend ]; then
    
