@@ -52,7 +52,7 @@ else
 
    echo "$instance instance private is $private_ip"
 
-aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "'{
+aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "{
         "Comment": "Upserting a record",
         "Changes": [
             {
@@ -69,7 +69,7 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch
                 }
             }
         ]
-    }'"
+    }"
 
  echo "$instance domain name is $instance.$Domain_Name"
 
