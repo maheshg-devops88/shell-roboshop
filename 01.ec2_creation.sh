@@ -4,6 +4,8 @@ AMI_ID="ami-0220d79f3f480ecf5"
 Instance_Type="t3.micro"
 SG_ID="sg-020b6d9853c171a73"
 SUB_ID="subnet-0a76f340dca5f78a5" 
+Domain_Name="daws88s.shop"
+ZONE_ID=Z01154241BNSMMPVQO32W
 
 for instance in $@; do
 
@@ -20,28 +22,62 @@ if [ $instance == frontend ]; then
 
    echo "$instance instance public is $public_ip"
 
+
+
+aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "'{
+        "Comment": "Upserting a record",
+        "Changes": [
+            {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": ":$instance.$Domain_Name",
+                    "Type": "A",
+                    "TTL": 2,
+                    "ResourceRecords": [
+                        {
+                            "Value": "$public_ip"
+                        }
+                    ]
+                }
+            }
+        ]
+    }'"
+
+echo "$instance domain name is $instance.$Domain_Name"
+
 else
 
    private_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
                --query "Reservations[*].Instances[*].PrivateIpAddress" --output text)
 
    echo "$instance instance private is $private_ip"
+
+aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "'{
+        "Comment": "Upserting a record",
+        "Changes": [
+            {
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": ":$instance.$Domain_Name",
+                    "Type": "A",
+                    "TTL": 2,
+                    "ResourceRecords": [
+                        {
+                            "Value": "$private_ip"
+                        }
+                    ]
+                }
+            }
+        ]
+    }'"
+
+ echo "$instance domain name is $instance.$Domain_Name"
+
  fi
 
 done
 
 
 
-# aws ec2 describe-instances \
-#     --instance-ids i-0123456789abcdef0 \
-#     --query "Reservations[*].Instances[*].PublicIpAddress" \
-#     --output text
 
-# for Name in $@
-   
-#     if [ $Name==frontend ]; then
-       
-#     public_ip="aws ec2 describe-instances --instance-ids i-0123456789abcdef0 \
-#             --query "Reservations[*].Instances[*].PublicIpAddress" --output text"
-   
    
