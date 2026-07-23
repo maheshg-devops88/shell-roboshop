@@ -24,24 +24,25 @@ if [ $instance == frontend ]; then
 
 
 
-aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID --change-batch "'{
+aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
+--change-batch '{
         "Comment": "Upserting a record",
         "Changes": [
             {
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": '$instance.$Domain_Name',
+                    "Name": "'$instance.$Domain_Name'",
                     "Type": "A",
                     "TTL": 2,
                     "ResourceRecords": [
                         {
-                            "Value": '$public_ip'
+                            "Value": "'$public_ip'"
                         }
                     ]
                 }
             }
         ]
-    }'"
+    }'
 
 echo "$instance domain name is $instance.$Domain_Name"
 
