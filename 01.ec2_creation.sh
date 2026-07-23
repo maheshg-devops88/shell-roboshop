@@ -13,7 +13,7 @@ aws ec2 run-instances --image-id $AMI_ID \
     --subnet-id $SUB_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --count 1
 
-if [$instance==frontend];
+if [$instance==frontend]; then
    
    public_ip="aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
              --query "Reservations[*].Instances[*].PublicIpAddress" --output text"
