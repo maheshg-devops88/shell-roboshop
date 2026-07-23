@@ -19,22 +19,8 @@ VALIDATE()
     else 
     echo "$2 record is not created..."
     fi
-
-ec2_instances=$(aws ec2 describe-instances --query "Reservations[*].Instances[*].[Tags[?Key=='Name'].Value | [0]]" \
-               --output text)
-
-
-
  for instance in $@; do
 
-    for ec2_instance in $ec2_instances; do
-   
-  if [ $ec2_instance == $instance ]; then
-      
-      echo "$instance ec2 instance already exists" 
-      exit 1
-
- else 
     
     Instance_Name=$(aws ec2 describe-instances \
     --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='$instance'].Value | [0]]" \
@@ -108,10 +94,8 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
     }'
 
  VALIDATE $? $instance 
-
-  fi
+ 
 fi
-  done
 done
 
 
