@@ -8,7 +8,7 @@ Domain_Name="daws88s.shop"
 ZONE_ID=Z01154241BNSMMPVQO32W
 
 
-if [ $# -le 1 ]; then
+if [ $# -eq 0 ]; then
    echo "please provide the instance name to create the instance"
    exit 1
 fi
