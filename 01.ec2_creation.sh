@@ -7,6 +7,11 @@ SUB_ID="subnet-0a76f340dca5f78a5"
 Domain_Name="daws88s.shop"
 ZONE_ID=Z01154241BNSMMPVQO32W
 
+if [ $# -le 1 ]; then
+   echo "please provide the instance name to create the instance"
+   exit 1
+fi
+
 for instance in $@; do
 
 ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
