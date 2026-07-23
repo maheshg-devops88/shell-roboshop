@@ -11,5 +11,5 @@ aws ec2 run-instances \
     --instance-type $Instance_Type \
     --security-group-ids $SG_ID \
     --subnet-id $SUB_ID \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$1}]'
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$1}]' \
     --count 1
