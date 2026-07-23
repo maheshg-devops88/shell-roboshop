@@ -69,7 +69,7 @@ else
 
 aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
 --change-batch '{
-        "Comment": "Upserting a record"
+        "Comment": "Upserting a record",
         "Changes": [
             {
                 "Action": "UPSERT",
