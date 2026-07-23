@@ -21,14 +21,14 @@ if [ $instance==frontend ]; then
     --output text)
 
 
-   echo "$instance instance public is $public_ip
+   echo "$instance instance public is $public_ip"
 
 else
 
    private_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
                --query "Reservations[*].Instances[*].PrivateIpAddress" --output text)
 
-   echo "$instance instance private is $private_ip
+   echo "$instance instance private is $private_ip"
  fi
 
 done
