@@ -20,18 +20,27 @@ VALIDATE()
     echo "$2 record is not created..."
     fi
 
+ec2_instances=$(aws ec2 describe-instances --query "Reservations[*].Instances[*].[Tags[?Key=='Name'].Value | [0]]" \
+               --output text)
 
 
-for instance in $@; do
+
+ for instance in $@; do
+
+    for ec2_instance in $ec2_instances; do
+   
+  if [ $ec2_instance == $instance ]; then
+      
+      echo "$instance ec2 instance already exists" 
+      exit 1
+
+ else 
     
-  Instance_Name=$(aws ec2 describe-instances \
+    Instance_Name=$(aws ec2 describe-instances \
     --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key=='$instance'].Value | [0]]" \
     --output text)
   
-  if  [ $instance_name == $instance ]; then
-        
-        echo "$instance_name already exits"
-       else    
+  
 
     ec2_instance=$(aws ec2 run-instances --image-id $AMI_ID \
     --instance-type $Instance_Type \
@@ -39,17 +48,17 @@ for instance in $@; do
     --subnet-id $SUB_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --count 1)
 
-if [ $instance == frontend ]; then
+   if [ $instance == frontend ]; then
    
-public_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
+   public_ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$instance" \
     --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
 
    echo "$instance instance public is $public_ip"
 
 
 
-aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
---change-batch '{
+     aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
+     --change-batch '{
         "Comment": "Upserting a record",
         "Changes": [
             {
@@ -100,10 +109,10 @@ aws route53 change-resource-record-sets --hosted-zone-id $ZONE_ID \
 
  VALIDATE $? $instance 
 
- fi
+  fi
 fi
+  done
 done
-
 
 
 
