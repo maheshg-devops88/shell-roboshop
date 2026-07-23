@@ -18,6 +18,7 @@ VALIDATE()
     echo "$2 record name is $instance.$Domain_Name created"
     else 
     echo "$2 record is not created..."
+    fi
 
 for instance in $@; do
 
