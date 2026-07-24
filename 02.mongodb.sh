@@ -9,7 +9,7 @@ if [ $userid -ne 0 ]; then
 fi 
 
 VALIDATE()
-if [$1 == 0 ]; then
+if [ $1 == 0 ]; then
    echo "$2 is SuccessFul" 
  else
    echo "$2 is Failure"
