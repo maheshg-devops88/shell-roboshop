@@ -58,7 +58,7 @@ VALIDATE $? "Catalogue Service Enabled"
 systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Catalogue Service Started"
 
-cp mongo.repo /etc/yum.repos.d/
+cp $WRK_DIR/mongo.repo /etc/yum.repos.d/
 VALIDATE $? "Copy Mongo Process"
 
 dnf install mongodb-org -y  &>> $LOG_FILE
