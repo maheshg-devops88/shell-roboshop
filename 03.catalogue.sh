@@ -77,7 +77,7 @@ db=$(mongosh --quiet --host mongodb.daws88s.shop --eval "db.getMongo().getDBName
 
 if [ $db == false ]; then
       
-    mongosh --host mongodb.daws88s.shop </app/db/master-data.js
+    mongosh --host mongodb.daws88s.shop </app/db/master-data.js &>> $LOG_FILE
     else 
     echo "Catalogue Schema already exists in MongoDB"
 fi
