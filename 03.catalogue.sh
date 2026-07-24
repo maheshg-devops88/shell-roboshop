@@ -37,7 +37,9 @@ mkdir -p /app
 VALIDATE $? "created directory /app"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOG_FILE
-VALIDATE $? "downloade catalogue.zip file to tmp Dir"
+VALIDATE $? "download catalogue.zip file to tmp Dir"
+
+rm -rf /app
 
 cd /app
 unzip /tmp/catalogue.zip &>> $LOG_FILE
