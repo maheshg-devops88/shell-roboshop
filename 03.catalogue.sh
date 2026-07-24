@@ -70,5 +70,14 @@ VALIDATE $? "Catalogue Service Started"
 cp $WRK_DIR/mongo.repo /etc/yum.repos.d/
 VALIDATE $? "Copy Mongo Process"
 
-dnf install mongodb-org -y  &>> $LOG_FILE
-VALIDATE $? "mongodb Installation"
+dnf install mongodb-mongosh -y  &>> $LOG_FILE
+VALIDATE $? "mongodb client Installation"
+
+db=$(mongosh --quiet --host mongodb.daws88s.shop --eval "db.getMongo().getDBNames().includes('catalogue')")
+
+if [ $db == false ]; then
+      
+    mongosh --host mongodb.daws88s.shop </app/db/master-data.js
+    else 
+    echo "Catalogue Schema already exists in MongoDB"
+fi
