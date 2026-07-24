@@ -12,13 +12,13 @@ fi
 
 VALIDATE()
 if [ $1 == 0 ]; then
-   echo "$2 is SuccessFul" 
+   echo "$2.....Success" 
  else
-   echo "$2 is Failure"
+   echo "$2.....Failure"
 fi
 
 mkdir -p $LOG_FOLDER
-VALIDATE $? "LOG directory creation is"
+VALIDATE $? "LOG directory creation "
 
 cp mongo.repo /etc/yum.repos.d/
 VALIDATE $? "Copy Process"
