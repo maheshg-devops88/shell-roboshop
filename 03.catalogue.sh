@@ -21,41 +21,41 @@ fi
 mkdir -p $LOG_FOLDER
 VALIDATE $? "LOG directory creation "
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "Disabled nodejs"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 VALIDATE $? "Enable nodejs:20"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Install nodejs"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
 VALIDATE $? "roboshop user added"
 
 mkdir -p /app
 VALIDATE $? "created directory /app"
 
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOG_FILE
 VALIDATE $? "downloade catalogue.zip file to tmp Dir"
 
 cd /app
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOG_FILE
 VALIDATE $? "unzip catalogue.zip to /app"
 
-npm install
+npm install &>> $LOG_FILE
 VALIDATE $? "Install dependencies"
 
 cp $WRK_DIR/catalogue.service /etc/systemd/system/
 VALIDATE $? "Copy Catalogue.service to /etc/systemd/system/"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOG_FILE
 VALIDATE $? "Daemon reload"
 
-systemctl enable catalogue 
+systemctl enable catalogue &>> $LOG_FILE
 VALIDATE $? "Catalogue Service Enabled"
 
-systemctl start catalogue
+systemctl start catalogue &>> $LOG_FILE
 VALIDATE $? "Catalogue Service Started"
 
 cp mongo.repo /etc/yum.repos.d/
