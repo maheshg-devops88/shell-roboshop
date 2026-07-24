@@ -1,6 +1,8 @@
 #!/bin/bash
 
 userid=$(id -u)
+LOG_FOLDER=/var/log/shell-roboshop
+LOG_FILE=/var/log/shell-roboshop/$0.log
 
 if [ $userid -ne 0 ]; then
     
@@ -15,17 +17,20 @@ if [ $1 == 0 ]; then
    echo "$2 is Failure"
 fi
 
+mkdir -p $LOG_FOLDER
+VALIDATE $? "LOG directory creation is"
+
 cp mongo.repo /etc/yum.repos.d/
 VALIDATE $? "Copy Process"
 
-dnf install mongodb-org -y
+dnf install mongodb-org -y  &>> $LOG_FILE
 VALIDATE $? "mongodb Installation"
 
 systemctl enable mongod 
 VALIDATE $? "mongodb enabled"
 
 
-sed -i 's/127.0.0.1/0.0.0.0/g'  /etc/mongod.conf
+sed -i 's/127.0.0.1/0.0.0.0/g'  /etc/mongod.conf  &>> $LOG_FILE
 VALIDATE $? "Changing to 127.0.0.1 to 0.0.0.0" 
 
 systemctl start mongod
