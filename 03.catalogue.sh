@@ -58,13 +58,12 @@ VALIDATE $? "Install dependencies"
 cp $WRK_DIR/catalogue.service /etc/systemd/system/
 VALIDATE $? "Copy Catalogue.service to /etc/systemd/system/"
 
-systemctl daemon-reload &>> $LOG_FILE
-VALIDATE $? "Daemon reload"
+systemctl daemon-reload
 
 systemctl enable catalogue &>> $LOG_FILE
 VALIDATE $? "Catalogue Service Enabled"
 
-systemctl start catalogue &>> $LOG_FILE
+systemctl restart catalogue &>> $LOG_FILE
 VALIDATE $? "Catalogue Service Started"
 
 cp $WRK_DIR/mongo.repo /etc/yum.repos.d/
