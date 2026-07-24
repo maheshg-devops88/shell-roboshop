@@ -30,9 +30,8 @@ VALIDATE $? "Enable nodejs:20"
 dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Install nodejs"
 
-SYS_USER=$(id roboshop)
-
-if [ $SYS_USER == 1 ]; then
+id roboshop &>> $LOG_FILE
+if [ $? == 1 ]; then
     
     echo "Create roboshop user...."
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>> $LOG_FILE
