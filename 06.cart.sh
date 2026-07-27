@@ -1,11 +1,11 @@
 #!/bin/bash
 
-cartid=$(id -u)
+userid=$(id -u)
 LOG_FOLDER=/var/log/shell-roboshop
 LOG_FILE=/var/log/shell-roboshop/$0.log
 WRK_DIR=$PWD
 
-if [ $cartid -ne 0 ]; then
+if [ $userid -ne 0 ]; then
     
     echo "Please run the script sudo access"
     exit 1
