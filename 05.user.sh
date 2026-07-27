@@ -19,14 +19,14 @@ if [ $1 == 0 ]; then
 fi
 
 mkdir -p $LOG_FOLDER
-VALIDATE $? "LOG directory creation "
+VALIDATE $? "LOG directory creation " 
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "Disable Module nodejs"
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 VALIDATE $? "Enable module nodejs 20"
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 VALIDATE $? "Install nodejs"
 
 id roboshop &>> $LOG_FILE
@@ -58,6 +58,7 @@ cp $WRK_DIR/user.service /etc/systemd/system/
 VALIDATE $? "Copy user.service to /etc/systemd/system/"
 
 systemctl daemon-reload
+VALIDATE $? "User Service Daemon reload"
 
 systemctl enable user &>> $LOG_FILE
 VALIDATE $? "user Service Enabled"
