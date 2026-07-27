@@ -32,10 +32,10 @@ VALIDATE $? "Install nodejs"
 id roboshop &>> $LOG_FILE
 if [ $? == 1 ]; then
     
-    echo "Create roboshop cart...."
+    echo "Create roboshop user...."
     cartadd --system --home /app --shell /sbin/nologin --comment "roboshop system cart" roboshop &>> $LOG_FILE
   else
-    echo "Roboshop cart already exists.."
+    echo "Roboshop user already exists.."
 fi
 
 rm -rf /app
