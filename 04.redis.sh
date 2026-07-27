@@ -22,18 +22,21 @@ mkdir -p $LOG_FOLDER
 VALIDATE $? "LOG directory creation "
 
 dnf module disable redis -y &>> $LOG_FILE
-VALIDATE $? "Disabled redis"
+VALIDATE $? "Disable redis Module"
 dnf module enable redis:7 -y  &>> $LOG_FILE
-VALIDATE $? "Enabled redis 7"
+VALIDATE $? "Enable redis 7 Module"
 
-dnf install redis -y 
+dnf install redis -y &>> $LOG_FILE
 VALIDATE $? "Install redis"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf &>> $LOG_FILE
+VALIDATE $? "Changed address from 127.0.0.1 to 0.0.0.0"
 
-sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf
 
-systemctl enable redis 
+sed -i 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf &>> $LOG_FILE
+VALIDATE $? "protected-mode from yes to no"
+
+systemctl enable redis &>> $LOG_FILE
 VALIDATE $? "Enable Systemctl service redis"
-systemctl start redis 
+systemctl start redis &>> $LOG_FILE
 VALIDATE $? "Start Systemctl service redis"
