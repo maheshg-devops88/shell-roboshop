@@ -33,7 +33,7 @@ VALIDATE $? "Enable rabbitmq service"
 systemctl restart rabbitmq-server
 VALIDATE $? "Start rabbitmq service"
 
-if rabbitmqctl list_users | grep -qE "^${USERNAME}[[:space:]]"; then
+if rabbitmqctl list_users | grep -qE "roboshop"; then
     echo "User 'roboshop' already exists. Skipping creation."
 else
     echo "Creating user 'roboshop'..."
