@@ -68,7 +68,7 @@ dnf install mysql -y &>> $LOG_FILE
 VALIDATE $? "Install mysql"
 
 # Query the database to check if the schema exists
-DB_EXISTS=$(mysql -u"root" -p"" -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'")
+DB_EXISTS=$(mysql -h mysql.daws88s.shop -uroot -pRoboShop@1 -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'")
 
 if [ $DB_EXISTS -ne 1 ]; then
     echo "Schema cities does not exist. Running schema.sql..."
