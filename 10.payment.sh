@@ -52,6 +52,9 @@ VALIDATE $? "unzip payment.zip to /app"
 pip3 install -r requirements.txt
 VALIDATE $? "Install requirements"
 
+cp $WRK_DIR/payment.service /etc/systemd/system
+VALIDATE $? "Copy payment.service"
+
 
 systemctl daemon-reload
 VALIDATE $? "payment Service Daemon reload"
