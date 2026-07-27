@@ -61,9 +61,23 @@ VALIDATE $? "shipping Service Daemon reload"
 systemctl enable shipping &>> $LOG_FILE
 VALIDATE $? "shipping Service Enabled"
 
-systemctl restart shipping &>> $LOG_FILE
+systemctl start shipping &>> $LOG_FILE
 VALIDATE $? "shipping Service Started"
 
-dnf install mysql -y 
+dnf install mysql -y &>> $LOG_FILE
 VALIDATE $? "Install mysql"
 
+# Query the database to check if the schema exists
+DB_EXISTS=$(mysql -u"root" -p"" -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'")
+
+if [ $DB_EXISTS -ne 1 ]; then
+    echo "Schema cities does not exist. Running schema.sql..."
+    mysql -h mysql.daws88s.shop -uroot -pRoboShop@1 < /app/db/schema.sql  &>> $LOG_FILE
+    mysql -h mysql.daws88s.shop -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $LOG_FILE
+    mysql -h mysql.daws88s.shop -uroot -pRoboShop@1 < /app/db/master-data.sql &>> $LOG_FILE
+else
+    echo "Schema cities already exists. Skipping installation."
+fi
+
+systemctl restart shipping &>> $LOG_FILE
+VALIDATE $? "shipping Service Started"
