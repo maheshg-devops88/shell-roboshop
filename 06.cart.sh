@@ -33,7 +33,7 @@ id roboshop &>> $LOG_FILE
 if [ $? == 1 ]; then
     
     echo "Create roboshop user...."
-    cartadd --system --home /app --shell /sbin/nologin --comment "roboshop system cart" roboshop &>> $LOG_FILE
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system cart" roboshop &>> $LOG_FILE
   else
     echo "Roboshop user already exists.."
 fi
