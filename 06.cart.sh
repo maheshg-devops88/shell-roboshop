@@ -44,7 +44,7 @@ VALIDATE $? "remove /app Dir if exists"
 mkdir -p /app
 VALIDATE $? "created directory /app"
 
-curl -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOG_FILE
+curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart-v3.zip &>> $LOG_FILE
 VALIDATE $? "download cart.zip file to tmp Dir"
 
 cd /app
